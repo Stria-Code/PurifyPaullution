@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c011d39483e2a824caaf70e9ff764722, type: 3}
+  m_Name: CS2_AfterMatch
+  m_EditorClassIdentifier: 
+  sentences:
+  - text: You got lucky this time.
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "You\u2019re poisoning us! If the people of Atlantis drank the oil contaminated
+      water, the entire city would be sick!"
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: A small price to pay. Besides, they can get jobs cleaning it up. A win-win
+      for me.
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "It\u2019s going to damage the water treatment plants, we\u2019ll have
+      a shortage! Not to mention all the pathogens from the sewage!"
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: Let's not drown in the details now...
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  background: {fileID: 6639818192470431039, guid: 9737d7f68b9b49a45af9fe349eedf5d4, type: 3}
+  nextScene: {fileID: 0}

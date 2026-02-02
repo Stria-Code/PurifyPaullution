@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c011d39483e2a824caaf70e9ff764722, type: 3}
+  m_Name: CS1_Opening
+  m_EditorClassIdentifier: 
+  sentences:
+  - text: "Can\u2019t you see? You\u2019re destroying our water, Paullution! You\u2019re
+      washed."
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "Atlantis will be under my control no matter what! I won\u2019t let you
+      dampen my spirit to get rich!"
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "Enough of this! You\u2019re swimming with the fishes"
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "You\u2019ll have to catch me first, H2Hoe"
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "Huh- It\u2019s H2Joe to you!"
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  background: {fileID: 6639818192470431039, guid: 9737d7f68b9b49a45af9fe349eedf5d4, type: 3}
+  nextScene: {fileID: 0}

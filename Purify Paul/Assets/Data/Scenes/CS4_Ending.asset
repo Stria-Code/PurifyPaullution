@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c011d39483e2a824caaf70e9ff764722, type: 3}
+  m_Name: CS4_Ending
+  m_EditorClassIdentifier: 
+  sentences:
+  - text: "I\u2019ve got you now Paullution, don\u2019t flounder."
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "I can sea clearly now... Maybe you\u2019ve been right."
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "Yes.. It\u2019s not worth the business if it means all our water is polluted..."
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "Wait... What\u2019s happening.."
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: '*bro gets majestically dilfified*'
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "I pledge to clean up my mess.. First, i\u2019ll start using floating barriers
+      in water to clean up all the rubbish we\u2019ve tipped into there..."
+    speaker: {fileID: 11400000, guid: 3cb06da64916d1e4da3581d9cf9ffcbe, type: 2}
+  - text: "Who\u2019s we?"
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "Sigh... You\u2019re right... Me... We\u2019ll introduce recycling measures
+      to stop waste from being dumped into waters."
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "Huh- It\u2019s H2Joe to you!"
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  - text: "You\u2019re finally redeeming yourself... We can work together on this."
+    speaker: {fileID: 11400000, guid: 8c7cd15da97163448b476ae93d97ba8b, type: 2}
+  background: {fileID: 6639818192470431039, guid: 9737d7f68b9b49a45af9fe349eedf5d4, type: 3}
+  nextScene: {fileID: 0}
