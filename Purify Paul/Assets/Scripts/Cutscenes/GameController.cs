@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static SceneController;
 
 public class GameController : MonoBehaviour
 {
-    public GameScene currentScene;
+    private GameScene currentScene;
     public BottomBarController bottomBar;
     public AudioController audioController;
+    public StoryScene endingScene;
+    public Image charImage;
+    public Sprite newSprite;
+    public int dilfMomentInt;
     //public SpriteSwitcher spriteSwitcher;
     //public ChooseController chooseController; //stuff from old dialogue system - we probably won't need dialogue choices
 
@@ -38,19 +44,26 @@ public class GameController : MonoBehaviour
             {
                 if (state == State.IDLE && bottomBar.IsLastSentence())
                 {
-                    if ((currentScene as StoryScene).nextScene == null)
-                    {
-                        SceneController.Instance.LoadScene("Scene"); // needs a scene to play if there are no more scenes to play.
-                    }
-                    else
-                    {
-                        PlayScene((currentScene as StoryScene).nextScene);
-                    }
+                    
+                SceneController.Instance.LoadScene((currentScene as StoryScene).nextScene);
+                    
                 }
                 else
-                { 
-                    bottomBar.PlayNextSentence();
-                    PlayAudio((currentScene as StoryScene).sentences[bottomBar.GetSentenceIndex()]);
+                {
+                    if ((currentScene as StoryScene) == endingScene)
+                    {
+                        for (int i = (currentScene as StoryScene).sentences.Count - 1; i >= 0; i--)
+                        {
+                            //StoryScene.Sentence sentence = (currentScene as StoryScene).sentences[i];
+
+                            if (i == dilfMomentInt)
+                            {
+                                charImage.sprite = newSprite;
+                            }
+                        }
+                    }
+                    StoryScene.Sentence sentence = bottomBar.PlayNextSentence();
+                    PlayAudio(sentence);
                 }
             }
         }
@@ -89,6 +102,6 @@ public class GameController : MonoBehaviour
 
     private void PlayAudio(StoryScene.Sentence sentence)
     {
-        audioController.PlayAudio(sentence.music, sentence.sound);
+        audioController.PlaySound(sentence.sound);
     }
 }

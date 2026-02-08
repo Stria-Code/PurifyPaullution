@@ -1,9 +1,8 @@
 using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 
-public class Player : MonoBehaviour , IEntity
+public class PlatformerPlayer : MonoBehaviour , IEntity
 {
     private int moveSpeed;
     private int jumpForce;
@@ -13,6 +12,9 @@ public class Player : MonoBehaviour , IEntity
     private Vector2 positions;
     private SpriteRenderer sr;
     private Animator animator;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+    private float groundRadius;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,11 +25,13 @@ public class Player : MonoBehaviour , IEntity
         moveSpeed = 5;
         jumpForce = 7;
         isGrounded = true;
+        groundRadius = 0.2f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckGround();
         MoveEntity();
     }
 
@@ -39,7 +43,7 @@ public class Player : MonoBehaviour , IEntity
         {
             rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
             sr.flipX = true;
-            animator.SetBool("Running", true); //stuff for animator
+            animator.SetBool("Running", true);
         }
 
 
@@ -68,21 +72,16 @@ public class Player : MonoBehaviour , IEntity
         }
     }
 
+    private void CheckGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
+
+        animator.SetBool("inAir", false);
+
+    }
+
     virtual public void OnCollisionEnter2D(Collision2D collision)
     {
 
-        //Check Player collision with image tag object
-        //if yes call platformer load next scene.
-        // PlatformerManager platformer;
-        // platformer = GetComponent<PlatformerManager>();
-        // platformer.OpenMatchingImagesMiniGame();
-
-        //add tag floor to all floors
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            isGrounded = true;
-        }
-
-        animator.SetBool("inAir", false);
     }
 }

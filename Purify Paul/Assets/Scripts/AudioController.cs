@@ -35,6 +35,15 @@ public class AudioController : MonoBehaviour
         }
     }
 
+    public void PlaySound(AudioClip sound)
+    {
+        if (sound != null)
+        {
+            soundSource.clip = sound;
+            soundSource.Play();
+        }
+    }
+
 
     private IEnumerator SwitchMusic(AudioClip music)
     {

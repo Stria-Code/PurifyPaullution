@@ -1,28 +1,72 @@
+using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static SceneController;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class MatchImagesManager : MonoBehaviour
 {
-    Player player;
+    [SerializeField] public MatchPlayer player;
+    private List<LineRenderer> lines;
+    [SerializeField] public List<GameObject> images;
+    private bool hasFinished = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        lines = new List<LineRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        CheckWinCondition();
+        CheckLoseCondition();
     }
 
-    void CheckIamges()
+    private void CheckWinCondition()
     {
+        if (hasFinished)
+        {
+            return;
+        }
 
+        if (player.GetMatches() >= 3)
+        {
+            hasFinished = true;
+
+            SceneController.Instance.didMatchImages = true;
+            SceneController.Instance.nextSpawnPoint = SpawnPointID.FromMatch;
+            SceneController.Instance.GetNextDialogue();
+            SceneController.Instance.LoadScene("Cutscene");
+        }
     }
 
-    public void OpenPlatformer()
+
+    private void CheckLoseCondition()
     {
-        SceneManager.LoadScene(5);
+        if (hasFinished)
+        {
+            return;
+        }
+
+        if (player.GetLives() <= 0)
+        { 
+            hasFinished = true;
+
+            ResetMiniGame();
+        }
+    }
+
+    public void AddLines(LineRenderer line)
+    {
+        lines.Add(line);
+    }
+
+    private void ResetMiniGame()
+    {
+        player.SetLives(3);
+        player.SetMatches(0);
+
+        SceneController.Instance.LoadScene("Match Minigame"); //load this scene again
     }
 }

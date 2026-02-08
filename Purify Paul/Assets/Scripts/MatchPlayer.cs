@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MatchPlayer : MonoBehaviour, IEntity
@@ -7,25 +9,45 @@ public class MatchPlayer : MonoBehaviour, IEntity
     private bool isGrounded;
     private Rigidbody2D rb;
     private Transform playerTransform;
-    private GameObject storedImage;
     private Vector2 positions;
     private SpriteRenderer sr;
     private Animator animator;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+    private float groundRadius;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private LineRenderer linePrefab;
+    private GameObject storedImage;
+    private GameObject currentImage;
+    int matches;
+    int lives;
+    MatchImagesManager manager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        manager = FindFirstObjectByType<MatchImagesManager>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         moveSpeed = 5;
         jumpForce = 7;
+        matches = 0;
+        lives = 3;
         isGrounded = true;
+        groundRadius = 0.2f;
+        lineRenderer.enabled = false;
+        storedImage = null;
+        currentImage = null;
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckGround();
         MoveEntity();
+        UpdateLine();
+        CheckImages();
     }
 
     virtual public void MoveEntity()
@@ -65,48 +87,119 @@ public class MatchPlayer : MonoBehaviour, IEntity
         }
     }
 
-    virtual public void OnCollisionEnter2D(Collision2D collision)
+    private void CheckGround()
     {
-        //Check Player collision with images
-        //if yes
-        //if input e
-        //grab image
-        //while image grabbed, if input e again
-        //check if collision with another image
-        //if image grabbed and other image are the same mark them as completed
-        //else release image held
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
 
-        if (storedImage)
+        animator.SetBool("inAir", false);
+
+    }
+
+
+    private void CheckImages()
+    {
+        if (currentImage != null && Input.GetKeyDown(KeyCode.E))
         {
-            if (collision.gameObject.CompareTag("Image"))
+            if (!storedImage)
             {
-                if (Input.GetKey(KeyCode.E))
+                // Grab the first image
+                storedImage = currentImage;
+                lineRenderer.enabled = true;
+                Debug.Log("Got the first image");
+            }
+            else
+            {
+                // Compare second image
+                if (storedImage.GetComponent<SpriteRenderer>().sprite == currentImage.GetComponent<SpriteRenderer>().sprite)
                 {
-                    if (storedImage.GetComponent<SpriteRenderer>().color == collision.gameObject.GetComponent<SpriteRenderer>().color)
-                    {
-                        storedImage = null;
-                        Destroy(storedImage);
-                        Destroy(collision.gameObject);
-                        Debug.Log("got the second image");
 
+                    if(storedImage == currentImage)
+                    {
+                        Debug.Log("Cannot match the same image!");
+                        return;
                     }
+
+                    LineRenderer newLine = Instantiate(linePrefab);
+                    newLine.positionCount = 2;
+                    newLine.SetPosition(0, storedImage.transform.position);
+                    newLine.SetPosition(1, currentImage.transform.position);
+
+                    lineRenderer.enabled = false;
+
+                    storedImage.GetComponent<Collider2D>().enabled = false;
+
+                    if (currentImage != null)
+                    {
+                        currentImage.GetComponent<Collider2D>().enabled = false;
+                    }
+
+                    storedImage = null;
+                    matches++;
+                    Debug.Log("Images matched!");
+                }
+                else
+                {
+                    lineRenderer.enabled = false;
+                    storedImage = null;
+                    lives--;
+                    Debug.Log("Images did not match!");
                 }
             }
-        }
-        else if (collision.gameObject.CompareTag("Image") && !storedImage)
-        {
-            if (Input.GetKey(KeyCode.E))
-            {
-                storedImage = collision.gameObject.GetComponent<GameObject>();
-                Debug.Log("got the first image");
-            }
-        }
 
-        //add tag floor to all floors
-        if (collision.gameObject.CompareTag("Floor"))
-        {
-            isGrounded = true;
-            animator.SetBool("inAir", false);
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Image"))
+        {
+            //track current image under player
+            currentImage = collision.gameObject;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Image") && collision.gameObject == currentImage)
+        {
+            currentImage = null;
+        }
+    }
+
+    private void UpdateLine()
+    {
+        if (storedImage)
+        {
+            // Line start = first image, end = player
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, storedImage.transform.position);
+            lineRenderer.SetPosition(1, transform.position);
+        }
+    }
+
+    virtual public void OnCollisionEnter2D(UnityEngine.Collision2D collision)
+    {
+
+    }
+
+    public int GetLives()
+    {
+        return lives;
+    }
+
+    public int GetMatches()
+    {
+        return matches;
+    }
+
+
+    public void SetLives(int l)
+    {
+        lives = l;
+    }
+
+    public void SetMatches(int m)
+    {
+        matches = m;
     }
 }

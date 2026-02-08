@@ -66,12 +66,16 @@ public class BottomBarController : MonoBehaviour
         PlayNextSentence();
     }
 
-    public void PlayNextSentence()
+    public StoryScene.Sentence PlayNextSentence()
     {
-        StartCoroutine(TypeText(currentScene.sentences[++sentenceIndex].text));
-        personNameText.text = currentScene.sentences[sentenceIndex].speaker.speakerName;
-        personNameText.color = currentScene.sentences[sentenceIndex].speaker.textColor;
-        audioSource.clip = textSound;
+        sentenceIndex++;
+        StoryScene.Sentence sentence = currentScene.sentences[sentenceIndex];
+
+        StartCoroutine(TypeText(sentence.text));
+        personNameText.text = sentence.speaker.speakerName;
+        personNameText.color = sentence.speaker.textColor;
+
+        return sentence;
     }
 
     public bool IsCompleted()

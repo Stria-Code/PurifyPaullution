@@ -7,14 +7,13 @@ public class StoryScene : GameScene
 {
     public List<Sentence> sentences;
     public Sprite background;
-    public GameScene nextScene;
+    public string nextScene;
 
     [System.Serializable]
     public struct Sentence
     {
         public string text;
         public Speaker speaker;
-        public AudioClip music;
         public AudioClip sound;
     }
 }

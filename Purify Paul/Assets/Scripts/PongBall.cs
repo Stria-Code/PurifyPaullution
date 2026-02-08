@@ -36,12 +36,14 @@ public class PongBall : MonoBehaviour
             MoveBall();
         }
 
+        //Destroy the current gameObject if there have been 3 seconds after collision has occured
         if (hasCollided && collisionTime > 0 && Time.time >= collisionTime + 3f)
         {
             Destroy(rb.GameObject());
         }
     }
 
+    //Move the projectiles
     void MoveBall()
     {
         rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
@@ -64,10 +66,10 @@ public class PongBall : MonoBehaviour
             //animator.SetTrigger("Delete");
         }
 
-        // Bounce off of walls
-        // if (collision.gameObject.CompareTag("Wall"))
-        // {
-        //    rb.linearVelocity = new Vector2(rb.linearVelocity.x, -rb.linearVelocity.y);
-        // }
+        //Bounce off of walls
+        /*if (collision.gameObject.CompareTag("Wall"))
+        {
+           rb.linearVelocity = new Vector2(rb.linearVelocity.x, -rb.linearVelocity.y);
+        }*/
     }
 }

@@ -14,12 +14,18 @@ public class PongManager : MonoBehaviour
     private float winTime;
     private float minY;
     private float maxY;
+    private bool hasFinished = false;
+    private float startTime;
+    private float timeInScene;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        timeInScene = 0f;
+        startTime = Time.time;
         lives = 3;
         spawnTime = 3f;
-        winTime = 120f;
+        winTime = 65f;
         minY = -4.8f;
         maxY = 4.8f;
 
@@ -29,6 +35,8 @@ public class PongManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeInScene = Time.time - startTime;
+        //Delay in spawning projectiles
         if (Time.time >= spawnTime)
         {
             SpawnProjectile();
@@ -46,6 +54,7 @@ public class PongManager : MonoBehaviour
         obstacles.Add(obstacle);
     }
 
+
     void CheckObstaclePos()
     {
         for (int i = obstacles.Count - 1; i >= 0; i--)
@@ -58,6 +67,7 @@ public class PongManager : MonoBehaviour
                 continue;
             }
 
+            //Destroies obstacles if they've got past the player
             if (obstacle.transform.position.x < -9)
             {
                 Destroy(obstacle);
@@ -69,23 +79,43 @@ public class PongManager : MonoBehaviour
 
     void CheckLoseCondition()
     {
-        if(lives <= 0)
+        if (hasFinished)
         {
-            //GameOverScreen
-            //SceneManager.LoadScene(4); whatever scene is a gameover screen
+            return;
         }
+
+        if (lives <= 0)
+        {
+            hasFinished = true;
+            ResetMiniGame();
+        }
+    }
+
+    public int GetLives()
+    {
+        return lives;
     }
 
     void CheckWinCondition()
     {
-        if(Time.time >= winTime && lives > 0)
+
+        if (hasFinished)
         {
+            return;
+        }
+
+        //This timer is for 2 minutes
+        if (timeInScene >= winTime && lives > 0)
+        {
+            hasFinished = true;
             SceneController.Instance.didPong = true;
             SceneController.Instance.nextSpawnPoint = SpawnPointID.FromPong;
-            SceneController.Instance.LoadScene("DialogueScene");
+            SceneController.Instance.GetNextDialogue();
+            SceneController.Instance.LoadScene("Cutscene");
         }
     }
 
+    //Instantiate projectiles
     void SpawnProjectile()
     {
         float randomPos = Random.Range(minY, maxY);
@@ -97,6 +127,7 @@ public class PongManager : MonoBehaviour
 
     void ResetMiniGame()
     {
+        SceneController.Instance.LoadScene("Pong Minigame");
         obstacles.Clear();
         lives = 3;
     }

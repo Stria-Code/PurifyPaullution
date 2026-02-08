@@ -46,6 +46,10 @@ public class SceneController : MonoBehaviour
         fadeAnimator.SetTrigger("FadeOut");
         yield return WaitForAnimation("FadeOut");
 
+        //Wait for 3 seconds
+        yield return new WaitForSeconds(3f);
+
+
         // Load new scene
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
         while (!async.isDone)
@@ -78,24 +82,22 @@ public class SceneController : MonoBehaviour
     {
         // logic for choosing dialogue based on flags
 
-
-        if (!didPlatformer)
+        if(didPlatformer && didMatchImages && didPong)
         {
-            return Resources.Load<StoryScene>("Dialogue/Intro"); //rename these to your liking
+            return Resources.Load<StoryScene>("CS4_Ending");
         }
 
-        if (!didPong)
+        if (didPong)
         {
-            return Resources.Load<StoryScene>("Dialogue/AfterPlatformer"); //rename these to your liking
+            return Resources.Load<StoryScene>("CS3_AfterPong");
+        }
+
+        if (didMatchImages)
+        {
+            return Resources.Load<StoryScene>("CS2_AfterMatch");
         }
 
 
-        if (!didMatchImages)
-        {
-            return Resources.Load<StoryScene>("Dialogue/AfterPlatformer2"); //rename these to your liking
-        }
-
-        // default
-        return Resources.Load<StoryScene>("Dialogue/Intro"); //rename these to your liking
+        return Resources.Load<StoryScene>("CS1_Opening");
     }
 }
