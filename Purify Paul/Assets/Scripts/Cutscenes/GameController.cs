@@ -13,8 +13,6 @@ public class GameController : MonoBehaviour
     public Image charImage;
     public Sprite newSprite;
     public int dilfMomentInt;
-    //public SpriteSwitcher spriteSwitcher;
-    //public ChooseController chooseController; //stuff from old dialogue system - we probably won't need dialogue choices
 
     private State state = State.IDLE;
 
